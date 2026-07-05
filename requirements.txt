@@ -1,0 +1,16 @@
+# ---- Task 3: CRUD + time-series API (SQL + MongoDB) ----
+fastapi==0.139.0
+uvicorn[standard]==0.50.0
+pymongo==4.17.0
+pydantic==2.13.4
+requests==2.34.2
+
+# ---- Tasks 1 & 4: EDA, modeling, prediction script ----
+# (unpinned; install the current stable releases)
+pandas
+numpy
+scikit-learn
+joblib
+matplotlib
+seaborn
+jupyter

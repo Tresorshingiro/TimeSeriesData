@@ -1,0 +1,316 @@
+
+======================================================================
+  BACKEND: SQL
+======================================================================
+
+### POST /records (create)  ->  HTTP 201
+{
+  "date_time": "2018-09-30T23:00:00",
+  "weather_main": "Clouds",
+  "weather_description": "overcast clouds",
+  "temp_kelvin": 283.84,
+  "rain_1h": 0.0,
+  "snow_1h": 0.0,
+  "clouds_all": 90,
+  "traffic_volume": 954,
+  "station_id": "ATR-301",
+  "holiday": null,
+  "id": "15"
+}
+
+### GET /records/15 (read one)  ->  HTTP 200
+{
+  "date_time": "2018-09-30T23:00:00",
+  "weather_main": "Clouds",
+  "weather_description": "overcast clouds",
+  "temp_kelvin": 283.84,
+  "rain_1h": 0.0,
+  "snow_1h": 0.0,
+  "clouds_all": 90,
+  "traffic_volume": 954,
+  "station_id": "ATR-301",
+  "holiday": null,
+  "id": "15"
+}
+
+### GET /records/latest (latest record)  ->  HTTP 200
+{
+  "date_time": "2018-09-30T23:00:00",
+  "weather_main": "Clouds",
+  "weather_description": "overcast clouds",
+  "temp_kelvin": 283.84,
+  "rain_1h": 0.0,
+  "snow_1h": 0.0,
+  "clouds_all": 90,
+  "traffic_volume": 954,
+  "station_id": "ATR-301",
+  "holiday": null,
+  "id": "15"
+}
+
+### GET /records?start=2012-10-01&end=2012-10-31 (date range)  ->  HTTP 200
+[
+  {
+    "date_time": "2012-10-02T09:00:00",
+    "weather_main": "Clouds",
+    "weather_description": "scattered clouds",
+    "temp_kelvin": 288.28,
+    "rain_1h": 0.0,
+    "snow_1h": 0.0,
+    "clouds_all": 40,
+    "traffic_volume": 5545,
+    "station_id": "ATR-301",
+    "holiday": null,
+    "id": "1"
+  },
+  {
+    "date_time": "2012-10-02T10:00:00",
+    "weather_main": "Clear",
+    "weather_description": "sky is clear",
+    "temp_kelvin": 289.36,
+    "rain_1h": 0.0,
+    "snow_1h": 0.0,
+    "clouds_all": 1,
+    "traffic_volume": 4516,
+    "station_id": "ATR-301",
+    "holiday": null,
+    "id": "2"
+  },
+  {
+    "date_time": "2012-10-02T11:00:00",
+    "weather_main": "Rain",
+    "weather_description": "light rain",
+    "temp_kelvin": 289.58,
+    "rain_1h": 0.25,
+    "snow_1h": 0.0,
+    "clouds_all": 75,
+    "traffic_volume": 4767,
+    "station_id": "ATR-301",
+    "holiday": null,
+    "id": "3"
+  },
+  {
+    "date_time": "2012-10-02T12:00:00",
+    "weather_main": "Clouds",
+    "weather_description": "overcast clouds",
+    "temp_kelvin": 290.13,
+    "rain_1h": 0.0,
+    "snow_1h": 0.0,
+    "clouds_all": 90,
+    "traffic_volume": 5026,
+    "station_id": "ATR-301",
+    "holiday": null,
+    "id": "4"
+  },
+  {
+    "date_time": "2012-10-03T07:00:00",
+    "weather_main": "Clear",
+    "weather_description": "sky is clear",
+    "temp_kelvin": 284.32,
+    "rain_1h": 0.0,
+    "snow_1h": 0.0,
+    "clouds_all": 0,
+    "traffic_volume": 6852,
+    "station_id": "ATR-301",
+    "holiday": null,
+    "id": "5"
+  },
+  {
+    "date_time": "2012-10-03T08:00:00",
+    "weather_main": "Clouds",
+    "weather_description": "scattered clouds",
+    "temp_kelvin": 285.1,
+    "rain_1h": 0.0,
+    "snow_1h": 0.0,
+    "clouds_all": 20,
+    "traffic_volume": 6947,
+    "station_id": "ATR-301",
+    "holiday": null,
+    "id": "6"
+  }
+]
+
+### PUT /records/15 (update volume->1234, weather->Rain)  ->  HTTP 200
+{
+  "date_time": "2018-09-30T23:00:00",
+  "weather_main": "Rain",
+  "weather_description": "light rain",
+  "temp_kelvin": 283.84,
+  "rain_1h": 0.0,
+  "snow_1h": 0.0,
+  "clouds_all": 90,
+  "traffic_volume": 1234,
+  "station_id": "ATR-301",
+  "holiday": null,
+  "id": "15"
+}
+
+### DELETE /records/15 (delete)  ->  HTTP 200
+{
+  "deleted": "15"
+}
+
+### GET /records/15 after delete (expect 404)  ->  HTTP 404
+{
+  "detail": "Record not found"
+}
+
+======================================================================
+  BACKEND: MONGO
+======================================================================
+
+### POST /records (create)  ->  HTTP 201
+{
+  "date_time": "2018-09-30T23:00:00",
+  "weather_main": "Clouds",
+  "weather_description": "overcast clouds",
+  "temp_kelvin": 283.84,
+  "rain_1h": 0.0,
+  "snow_1h": 0.0,
+  "clouds_all": 90,
+  "traffic_volume": 954,
+  "station_id": "ATR-301",
+  "holiday": null,
+  "id": "6a4a4c05a0e6155952faf56d"
+}
+
+### GET /records/6a4a4c05a0e6155952faf56d (read one)  ->  HTTP 200
+{
+  "date_time": "2018-09-30T23:00:00",
+  "weather_main": "Clouds",
+  "weather_description": "overcast clouds",
+  "temp_kelvin": 283.84,
+  "rain_1h": 0.0,
+  "snow_1h": 0.0,
+  "clouds_all": 90,
+  "traffic_volume": 954,
+  "station_id": "ATR-301",
+  "holiday": null,
+  "id": "6a4a4c05a0e6155952faf56d"
+}
+
+### GET /records/latest (latest record)  ->  HTTP 200
+{
+  "date_time": "2018-09-30T23:00:00",
+  "weather_main": "Clouds",
+  "weather_description": "overcast clouds",
+  "temp_kelvin": 283.84,
+  "rain_1h": 0.0,
+  "snow_1h": 0.0,
+  "clouds_all": 90,
+  "traffic_volume": 954,
+  "station_id": "ATR-301",
+  "holiday": null,
+  "id": "6a4a4c05a0e6155952faf56d"
+}
+
+### GET /records?start=2012-10-01&end=2012-10-31 (date range)  ->  HTTP 200
+[
+  {
+    "date_time": "2012-10-02T09:00:00",
+    "weather_main": "Clouds",
+    "weather_description": "scattered clouds",
+    "temp_kelvin": 288.28,
+    "rain_1h": 0.0,
+    "snow_1h": 0.0,
+    "clouds_all": 40,
+    "traffic_volume": 5545,
+    "station_id": "ATR-301",
+    "holiday": null,
+    "id": "6a4a4c04f49510d6f97d4233"
+  },
+  {
+    "date_time": "2012-10-02T10:00:00",
+    "weather_main": "Clear",
+    "weather_description": "sky is clear",
+    "temp_kelvin": 289.36,
+    "rain_1h": 0.0,
+    "snow_1h": 0.0,
+    "clouds_all": 1,
+    "traffic_volume": 4516,
+    "station_id": "ATR-301",
+    "holiday": null,
+    "id": "6a4a4c04f49510d6f97d4234"
+  },
+  {
+    "date_time": "2012-10-02T11:00:00",
+    "weather_main": "Rain",
+    "weather_description": "light rain",
+    "temp_kelvin": 289.58,
+    "rain_1h": 0.25,
+    "snow_1h": 0.0,
+    "clouds_all": 75,
+    "traffic_volume": 4767,
+    "station_id": "ATR-301",
+    "holiday": null,
+    "id": "6a4a4c04f49510d6f97d4235"
+  },
+  {
+    "date_time": "2012-10-02T12:00:00",
+    "weather_main": "Clouds",
+    "weather_description": "overcast clouds",
+    "temp_kelvin": 290.13,
+    "rain_1h": 0.0,
+    "snow_1h": 0.0,
+    "clouds_all": 90,
+    "traffic_volume": 5026,
+    "station_id": "ATR-301",
+    "holiday": null,
+    "id": "6a4a4c04f49510d6f97d4236"
+  },
+  {
+    "date_time": "2012-10-03T07:00:00",
+    "weather_main": "Clear",
+    "weather_description": "sky is clear",
+    "temp_kelvin": 284.32,
+    "rain_1h": 0.0,
+    "snow_1h": 0.0,
+    "clouds_all": 0,
+    "traffic_volume": 6852,
+    "station_id": "ATR-301",
+    "holiday": null,
+    "id": "6a4a4c04f49510d6f97d4237"
+  },
+  {
+    "date_time": "2012-10-03T08:00:00",
+    "weather_main": "Clouds",
+    "weather_description": "scattered clouds",
+    "temp_kelvin": 285.1,
+    "rain_1h": 0.0,
+    "snow_1h": 0.0,
+    "clouds_all": 20,
+    "traffic_volume": 6947,
+    "station_id": "ATR-301",
+    "holiday": null,
+    "id": "6a4a4c04f49510d6f97d4238"
+  }
+]
+
+### PUT /records/6a4a4c05a0e6155952faf56d (update volume->1234, weather->Rain)  ->  HTTP 200
+{
+  "date_time": "2018-09-30T23:00:00",
+  "weather_main": "Rain",
+  "weather_description": "light rain",
+  "temp_kelvin": 283.84,
+  "rain_1h": 0.0,
+  "snow_1h": 0.0,
+  "clouds_all": 90,
+  "traffic_volume": 1234,
+  "station_id": "ATR-301",
+  "holiday": null,
+  "id": "6a4a4c05a0e6155952faf56d"
+}
+
+### DELETE /records/6a4a4c05a0e6155952faf56d (delete)  ->  HTTP 200
+{
+  "deleted": "6a4a4c05a0e6155952faf56d"
+}
+
+### GET /records/6a4a4c05a0e6155952faf56d after delete (expect 404)  ->  HTTP 404
+{
+  "detail": "Record not found"
+}
+
+======================================================================
+ALL CHECKS PASSED
+======================================================================

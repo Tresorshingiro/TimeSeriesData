@@ -95,18 +95,49 @@ you'd pick one over the other for this workload.]_
 
 ## 4. Task 3 — CRUD and Time-Series Query Endpoints
 
-_[Framework used (e.g. FastAPI/Flask/Express), endpoint list for both SQL and
-MongoDB backends, example request/response for each, and how "latest record" and
-"records by date range" are implemented against each database.]_
+The API is built with **FastAPI** (served by Uvicorn), which gives interactive
+Swagger documentation at `/docs` for free. Full CRUD plus the two required
+time-series queries are exposed for **both** backends. To guarantee the SQL and
+MongoDB sides behave identically, both are generated from a single router factory
+(`api/main.py`) parameterized by a backend module — so there is exactly one place
+where route logic lives. Every endpoint below exists under both the `/sql` and
+`/mongo` prefixes:
 
 | Method | Endpoint               | Backend     | Description           |
 | ------ | ---------------------- | ----------- | --------------------- |
-| POST   | `/records`             | SQL / Mongo | Create a record       |
-| GET    | `/records/{id}`        | SQL / Mongo | Get a record          |
-| PUT    | `/records/{id}`        | SQL / Mongo | Update a record       |
-| DELETE | `/records/{id}`        | SQL / Mongo | Delete a record       |
-| GET    | `/records/latest`      | SQL / Mongo | Latest record         |
-| GET    | `/records?start=&end=` | SQL / Mongo | Records by date range |
+| POST   | `/{backend}/records`             | SQL / Mongo | Create a record       |
+| GET    | `/{backend}/records/latest`      | SQL / Mongo | **Latest record**     |
+| GET    | `/{backend}/records?start=&end=` | SQL / Mongo | **Records by date range** |
+| GET    | `/{backend}/records/{id}`        | SQL / Mongo | Get a record          |
+| PUT    | `/{backend}/records/{id}`        | SQL / Mongo | Update a record       |
+| DELETE | `/{backend}/records/{id}`        | SQL / Mongo | Delete a record       |
+
+**Unified record shape.** Both backends accept and return the same denormalized
+JSON, so clients are backend-agnostic. On the SQL side the API transparently maps
+this shape onto the normalized Task 2 schema — resolving
+`weather_main`/`weather_description` to a `weather_id` (inserting new pairs when
+needed) and upserting holidays keyed by date — while MongoDB stores the embedded
+`metadata`/`weather`/`holiday` document from the Task 2 design.
+
+**Time-series endpoints.**
+- *Latest record* — SQL runs `ORDER BY date_time DESC LIMIT 1`; MongoDB runs
+  `find(sort=[("date_time", -1)]).limit(1)`.
+- *Records by date range* — SQL uses `WHERE date_time BETWEEN ? AND ?`; MongoDB
+  uses `{date_time: {$gte, $lte}}`. Both are backed by an index on `date_time`.
+
+**MongoDB collection type.** Task 2's design uses a native *time-series*
+collection for analytical storage, but that type rejects single-document updates
+(`Cannot perform a non-multi update on a time-series collection`), which breaks a
+REST `PUT`. The API therefore uses a standard collection with the identical
+document shape and the same indexes, so full CRUD works while remaining faithful
+to the Task 2 document model.
+
+**Verification.** `api/smoke_test.py` drives the entire CRUD lifecycle plus both
+time-series endpoints against both backends; the captured transcript is in
+`api/sample_api_results.txt`. As a cross-check, the October-2012 date-range query
+returns the same six traffic volumes (`5545, 4516, 4767, 5026, 6852, 6947`) on
+both the SQL and MongoDB backends, and a record created via `POST` is immediately
+reflected by the `latest` endpoint on both.
 
 ---
 
