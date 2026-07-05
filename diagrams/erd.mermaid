@@ -1,0 +1,36 @@
+erDiagram
+    STATIONS ||--o{ TRAFFIC_RECORDS : "records at"
+    WEATHER_CONDITIONS ||--o{ TRAFFIC_RECORDS : "describes"
+    HOLIDAYS ||--o{ TRAFFIC_RECORDS : "falls on"
+
+    STATIONS {
+        varchar station_id PK
+        varchar station_name
+        varchar road_name
+        varchar direction
+        varchar location_description
+    }
+
+    WEATHER_CONDITIONS {
+        int weather_id PK
+        varchar weather_main
+        varchar weather_description
+    }
+
+    HOLIDAYS {
+        date holiday_date PK
+        varchar holiday_name
+    }
+
+    TRAFFIC_RECORDS {
+        int record_id PK
+        varchar station_id FK
+        timestamp date_time
+        int weather_id FK
+        date holiday_date FK
+        numeric temp_kelvin
+        numeric rain_1h
+        numeric snow_1h
+        int clouds_all
+        int traffic_volume
+    }
