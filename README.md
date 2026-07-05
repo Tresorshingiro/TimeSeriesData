@@ -117,11 +117,12 @@ pipeline → model inference → forecast.
 
 ## Team
 
-| Name  | Role / Main components |
-| ----- | ---------------------- |
-| _TBD_ | _TBD_                  |
-| _TBD_ | _TBD_                  |
-| _TBD_ | _TBD_                  |
+| Name                       | Role / Main components                                              |
+| -------------------------- | ------------------------------------------------------------------- |
+| Nkurunziza Shingiro Tresor | Task 1 — EDA, analytical questions, model training & tuning          |
+| Eldrige                    | Task 2 — SQL schema & ERD, MongoDB design, sample queries            |
+| Enock Mugisha              | Task 3 — FastAPI CRUD + time-series endpoints (SQL & MongoDB)        |
+| Ulrich Rukazambuga         | Task 4 — ML prediction endpoint integrating the trained model        |
 
 ## Report
 
