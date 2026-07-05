@@ -1,0 +1,48 @@
+
+--- Query 1: Latest record ---
+SELECT t.date_time, t.traffic_volume, w.weather_main, s.station_name
+FROM traffic_records t
+JOIN weather_conditions w ON t.weather_id = w.weather_id
+JOIN stations s ON t.station_id = s.station_id
+ORDER BY t.date_time DESC
+LIMIT 1;
+date_time | traffic_volume | weather_main | station_name
+2013-06-15 17:00:00 | 5980 | Rain | MN DoT ATR Station 301
+
+--- Query 2: Records in date range 2012-10-01 to 2012-10-31 ---
+SELECT date_time, traffic_volume, temp_kelvin
+FROM traffic_records
+WHERE date_time BETWEEN '2012-10-01' AND '2012-10-31 23:59:59'
+ORDER BY date_time;
+date_time | traffic_volume | temp_kelvin
+2012-10-02 09:00:00 | 5545 | 288.28
+2012-10-02 10:00:00 | 4516 | 289.36
+2012-10-02 11:00:00 | 4767 | 289.58
+2012-10-02 12:00:00 | 5026 | 290.13
+2012-10-03 07:00:00 | 6852 | 284.32
+2012-10-03 08:00:00 | 6947 | 285.1
+
+--- Query 3: Avg traffic volume by weather_main ---
+SELECT w.weather_main, ROUND(AVG(t.traffic_volume),1) AS avg_volume, COUNT(*) AS n_obs
+FROM traffic_records t
+JOIN weather_conditions w ON t.weather_id = w.weather_id
+GROUP BY w.weather_main
+ORDER BY avg_volume DESC;
+weather_main | avg_volume | n_obs
+Clear | 6092.0 | 4
+Clouds | 6051.5 | 4
+Rain | 5373.5 | 2
+Mist | 890.0 | 1
+Snow | 807.3 | 3
+
+--- Query 4: Holiday vs non-holiday avg traffic volume ---
+SELECT CASE WHEN holiday_date IS NULL THEN 'Non-holiday' ELSE 'Holiday' END AS day_type,
+       ROUND(AVG(traffic_volume),1) AS avg_volume,
+       COUNT(*) AS n_obs
+FROM traffic_records
+GROUP BY day_type;
+day_type | avg_volume | n_obs
+Holiday | 828.0 | 4
+Non-holiday | 5932.1 | 10
+
+DB written to: /home/claude/db_design/metro_traffic.db
